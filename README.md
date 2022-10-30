@@ -63,7 +63,7 @@ flask run
 ### Installer le back-end dans une instance EC2
 
 Voici la procédure à réaliser pour installer le back-end dans une instance EC2
-- Créez un rôle IAM spécifique, nommé `role_back_end`, qui sera affecté à l'instance EC2 à créer. Il faudra mettre les politiques suivantes.
+- Créez un rôle IAM spécifique, nommé `role_back_end`, qui sera affecté à l'instance EC2 à créer. Il faudra mettre la politique suivante.
   Ce rôle permettra à l'instance EC2 de récupérer l'url de la base de données RDS que l'on créera par la suite.
   Cette URL ne peut pas être connue à l'avance car elle est générée automatiquement par AWS
 ```
@@ -89,25 +89,25 @@ Voici la procédure à réaliser pour installer le back-end dans une instance EC
   - Rôle IAM : `role_back_end`
   - Configuration réseau : `VPC par défaut`
   - Groupe de sécurité : `gds_back_end`
-  - (Optionnel) L'instance EC2 devra exécuter un script (ci-dessous) pour démarrer le back-end. On y précise les informations sur la bases de données RDS à créer par la suite. Par défaut, toutes les valeurs sont `thegreenearthpost`, modifiez si vous le souhaitez
-    - `MYSQL_DB_INSTANCE`: nom de l'instance RDS MySQL
-    - `MYSQL_DATABASE`: nom de la base de données MySQL
-    - `MYSQL_USER`: nom de l'utilisateur pour se connecter à la base de données
-    - `MYSQL_PASSWORD`: mot de passe pour se connecter à la base de données avec l'utilisateur `MYSQL_USER`
+  - (Optionnel) L'instance EC2 devra exécuter un script (ci-dessous) pour démarrer le back-end. On y précise les informations sur la bases de données RDS à créer par la suite.
+    - `MYSQL_DB_INSTANCE`: nom de l'instance RDS MySQL, valeur par défaut -> `thegreenearthpost`
+    - `MYSQL_DATABASE`: nom de la base de données MySQL, valeur par défaut -> `thegreenearthpost`
+    - `MYSQL_USER`: nom de l'utilisateur pour se connecter à la base de données, valeur par défaut -> `admin`
+    - `MYSQL_PASSWORD`: mot de passe pour se connecter à la base de données avec l'utilisateur `MYSQL_USER`, valeur par défaut -> `password`
   - Données utilisateur : inclure le code ci-dessous (en modifiant les variables d'environnements si vous avez décidé de le faire)
 ```
+#!/bin/bash
 cd /home/ec2-user
 sudo yum -y upgrade
 sudo yum install -y git
 git clone https://github.com/ysennoun/the-green-earth-post.git
-python3 -m venv the-green-earth-post/env
-source ~/the-green-earth-post/env/bin/activate
-pip install -r the-green-earth-post/back_end/requirements.txt
+pip3 install -r the-green-earth-post/back_end/requirements.txt
 export MYSQL_DB_INSTANCE="thegreenearthpost"
 export MYSQL_DATABASE="thegreenearthpost"
-export MYSQL_USER="thegreenearthpost"
-export MYSQL_PASSWORD="thegreenearthpost"
+export MYSQL_USER="admin"
+export MYSQL_PASSWORD="password"
 gunicorn --bind 0.0.0.0:5000 --chdir the-green-earth-post/back_end handler:app
+
 ```
 - Récupérez l'adresse IP de votre instance EC2 nouvellement créée
 - Dans une page d'un navigateur et tapez `<instance-EC2-IP>:5000/health` ce qui permet de savoir si le back-end est fonctionnel.
