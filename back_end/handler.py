@@ -11,10 +11,11 @@ comment_db = CommentDB()
 @app.route('/health')
 def health():
     """
-    health permet de tester si le serveur web est bien fonctionnel
+    health permet de tester si le back-end est bien fonctionnel
+    :return: retourne une phrase
     :return: retourne une phrase
     """
-    return 'Web Server is healthy !'
+    return 'Back End is healthy !'
 
 
 @app.route('/comments', methods=['GET'])
@@ -39,3 +40,8 @@ def post_comment():
         date=data["date"]
     )
     return jsonify(data)
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0')
+
