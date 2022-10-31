@@ -47,7 +47,6 @@ class CommentDB:
                     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                     name VARCHAR(100),
                     comment VARCHAR(255),
-                    article_id VARCHAR(100),
                     date VARCHAR(100)
                 );
             """)
@@ -67,12 +66,10 @@ class CommentDB:
         record = cursor.fetchone()
         return record
 
-    def get_comments(self, article_id: str=None):
+    def get_comments(self):
         """
         get_comments retourne les commentaires contenus dans la base de données MySQL
-        pour un article donnée identifié avec le paramètre d'entrée article_id
 
-        :param article_id: l'identifiant de l'article lu par le visiteur
         :return: retourne l'ensemble des commentaires filtrés
         """
         self.set_connection()
@@ -88,19 +85,18 @@ class CommentDB:
         else:
             return []
 
-    def insert_comment(self, name, comment, article_id, date):
+    def insert_comment(self, name, comment, date):
         """
         insert_comment insère un commentaire dans la table Comments
 
         :param name: le nom du visiteur qui laisse un commentaire
         :param comment: le contenu du commentaire
-        :param article_id: l'identifiant de l'article lu par le visiteur
         :param date: la date à laquelle le commentaire a été laissé
         """
         self.set_connection()
         cursor = self.__connection.cursor()
         cursor.execute(f"""
-            INSERT INTO comments (name, comment, article_id, date)
-            VALUES ('{name}', '{comment}', '{article_id}', '{date}');
+            INSERT INTO comments (name, comment, date)
+            VALUES ('{name}', '{comment}', '{date}');
         """)
         self.__connection.commit()
