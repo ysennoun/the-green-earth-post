@@ -36,7 +36,6 @@ def post_comment():
     comment_db.insert_comment(
         name=data["name"],
         comment=data["message"],
-        article_id="article_id",
         date=data["date"]
     )
     return jsonify(data)
