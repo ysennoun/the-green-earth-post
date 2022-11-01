@@ -113,4 +113,4 @@ gunicorn --bind 0.0.0.0:5000 --chdir the-green-earth-post/back_end handler:app
 - Dans une page d'un navigateur et tapez `<instance-EC2-IP>:5000/health` ce qui permet de savoir si le back-end est fonctionnel.
   Pour cela, vous devez voir le message `Back End is healthy !`, signifiant que `le Back End est en bonne santé !`
 
-![Test fonctionnel](docs/test_health.PNG)
+![Test fonctionnel](docs/health.png)

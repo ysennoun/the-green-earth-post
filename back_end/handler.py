@@ -15,7 +15,7 @@ def health():
     :return: retourne une phrase
     :return: retourne une phrase
     """
-    return 'Back End is healthy !'
+    return 'Web Server is healthy !'
 
 
 @app.route('/comments', methods=['GET'])
