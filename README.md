@@ -5,7 +5,7 @@ Ci-dessous la description de la structure du projet `The Green Earth Post`.
 ## Architecture 
 L'image suivante présente l'architecture entre les pages Web, le back-end composé d'un serveur back-end et d'une base de données MySQL
 
-![Datahub Architecture](docs/architecture.png)
+![Datahub Architecture](docs/architecture_site_web.png)
 
 ## Structure
 ### Front-End
