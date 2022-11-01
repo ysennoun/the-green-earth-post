@@ -6,14 +6,15 @@ import boto3
 
 def get_mysql_host():
     """
-    get_mysql_host retourne l'url de la base de données MySQL.
+    get_mysql_host retourne url de la base de données MySQL.
     :return: l'url de la base de données MySQL
     """
-    # La variable d'environnement MYSQL_LOCAL_HOST est utilisée pour les développement en local avec Docker
+
+    # La variable d'environnement MYSQL_LOCAL_HOST est utilisee pour les développement en local avec Docker
     if os.environ.get("MYSQL_LOCAL_HOST"):
         return os.environ["MYSQL_LOCAL_HOST"]
 
-    # On récupère l'url de la base de données RDS afin de s'y connecter pour lire et insérer des commentaires
+    # On recupere l'url de la base de données RDS afin de s'y connecter pour lire et inserer des commentaires
     client = boto3.client('rds')
     instances = client.describe_db_instances(DBInstanceIdentifier=os.environ["MYSQL_DB_INSTANCE"])
     return instances.get('DBInstances')[0].get('Endpoint').get('Address')
@@ -37,7 +38,7 @@ class CommentDB:
 
     def __create_table(self):
         """
-        __create_table crée la table Comments si elle n'existe pas déjà
+        __create_table crée la table Comments si elle n existe pas deja
         """
         try:
             cursor = self.__connection.cursor()
@@ -60,9 +61,7 @@ class CommentDB:
         __drop_table supprime la table Comments
         """
         cursor = self.__connection.cursor()
-        cursor.execute(f"""
-            DROP TABLE comments;
-        """)
+        cursor.execute("DROP TABLE comments;")
         record = cursor.fetchone()
         return record
 
@@ -70,14 +69,14 @@ class CommentDB:
         """
         get_comments retourne les commentaires contenus dans la base de données MySQL
 
-        :return: retourne l'ensemble des commentaires filtrés
+        :return: retourne l'ensemble des commentaires
         """
         self.set_connection()
         cursor = self.__connection.cursor()
         cursor.execute("""
             SELECT JSON_ARRAYAGG(JSON_OBJECT('name', name, 'comment', comment, 'date', date))
             FROM comments;
-         """)
+        """)
         record = cursor.fetchone()
         result = record[0]
         if result:
@@ -91,12 +90,11 @@ class CommentDB:
 
         :param name: le nom du visiteur qui laisse un commentaire
         :param comment: le contenu du commentaire
-        :param date: la date à laquelle le commentaire a été laissé
+        :param date: la date de la création du commentaire
         """
         self.set_connection()
         cursor = self.__connection.cursor()
-        cursor.execute(f"""
-            INSERT INTO comments (name, comment, date)
-            VALUES ('{name}', '{comment}', '{date}');
-        """)
+        cursor.execute(
+            f"INSERT INTO comments (name, comment, date) VALUES ('{name}', '{comment}', '{date}')"
+        )
         self.__connection.commit()

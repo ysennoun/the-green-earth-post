@@ -102,6 +102,7 @@ sudo yum -y upgrade
 sudo yum install -y git
 git clone https://github.com/ysennoun/the-green-earth-post.git
 pip3 install -r the-green-earth-post/back_end/requirements.txt
+export AWS_DEFAULT_REGION="eu-west-1"
 export MYSQL_DB_INSTANCE="thegreenearthpost"
 export MYSQL_DATABASE="thegreenearthpost"
 export MYSQL_USER="admin"

@@ -11,8 +11,7 @@ comment_db = CommentDB()
 @app.route('/health')
 def health():
     """
-    health permet de tester si le back-end est bien fonctionnel
-    :return: retourne une phrase
+    health permet de tester si le serveur web est bien fonctionnel
     :return: retourne une phrase
     """
     return 'Web Server is healthy !'
@@ -21,8 +20,8 @@ def health():
 @app.route('/comments', methods=['GET'])
 def get_comments():
     """
-    get_comments retourne les commentaires contenus dans la base de données MySQL
-    :return: retourne l'ensemble des commentaires filtrés
+    get_comments retourne tous les commentaires
+    :return: retourne tous les comentaires
     """
     return comment_db.get_comments()
 
@@ -30,7 +29,7 @@ def get_comments():
 @app.route('/comment', methods=['POST'])
 def post_comment():
     """
-    post_comment insère un commentaire dans la table Comments
+    post_comment insérer un commentaire
     """
     data = request.json
     comment_db.insert_comment(
@@ -43,4 +42,3 @@ def post_comment():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
-
