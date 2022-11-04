@@ -8,7 +8,7 @@ CORS(app)
 comment_db = CommentDB()
 
 
-@app.route('/health')
+@app.route('/api/health')
 def health():
     """
     health permet de tester si le serveur web est bien fonctionnel
@@ -17,7 +17,7 @@ def health():
     return 'Web Server is healthy !'
 
 
-@app.route('/comments', methods=['GET'])
+@app.route('/api/comments', methods=['GET'])
 def get_comments():
     """
     get_comments retourne tous les commentaires
@@ -26,7 +26,7 @@ def get_comments():
     return comment_db.get_comments()
 
 
-@app.route('/comment', methods=['POST'])
+@app.route('/api/comment', methods=['POST'])
 def post_comment():
     """
     post_comment insérer un commentaire

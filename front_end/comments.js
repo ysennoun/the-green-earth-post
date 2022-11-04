@@ -1,5 +1,5 @@
 // TODO: Remplacer la valeur de backEndUrl avec l'url du serveur back-end
-const backEndUrl = 'http://localhost:5000';
+const backEndUrl = 'http://52.18.62.229:5000';
 
 function postComment(){
     const nameInput = document.getElementById("name");
