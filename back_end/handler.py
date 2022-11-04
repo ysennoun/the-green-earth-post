@@ -14,7 +14,7 @@ def health():
     health permet de tester si le serveur web est bien fonctionnel
     :return: retourne une phrase
     """
-    return 'Web Server is healthy !'
+    return 'API Server is healthy !'
 
 
 @app.route('/api/comments', methods=['GET'])
