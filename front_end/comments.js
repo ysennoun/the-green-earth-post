@@ -1,5 +1,5 @@
-// TODO: Remplacer la valeur de backEndUrl avec l'url du serveur back-end
-const backEndUrl = 'http://52.18.62.229:5000';
+// TODO: Remplacer la valeur de apiServerUrl avec l'url du serveur d'API
+const apiServerUrl = 'http://<IP>:5000';
 
 function postComment(){
     const nameInput = document.getElementById("name");
@@ -16,7 +16,7 @@ function postComment(){
         }
         else{
             const json = JSON.stringify({name: name, message: message, date: date});
-            axios.post(backEndUrl + "/comment", json,
+            axios.post(apiServerUrl + "/api/comment", json,
             {
                 headers: {
                     'Content-Type': 'application/json'
@@ -48,7 +48,7 @@ function getComment(name, comment, date){
 }
 
 function getComments() {
-    const promiseData = axios.get(backEndUrl + "/comments").then(response => response.data).catch(err => console.error(err));
+    const promiseData = axios.get(apiServerUrl + "/api/comments").then(response => response.data).catch(err => console.error(err));
     promiseData.then(data=>{
         for(item of data){
             document.getElementById('get-comments').innerHTML += getComment(item.name, item.comment, item.date);
