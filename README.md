@@ -13,7 +13,7 @@ L'image suivante présente l'architecture entre les pages Web, le back-end compo
 - La page Web principale est `index.html`
 - La page Web `post.html` est un article de presse qui contient au bas les commenteurs des visiteurs. Il est possible de poster son propre commentaire.
 - Les commentaires sont stockées dans la base de données MySQL
-- Pour récupérer les commentaires depuis le back-end, il faut remplacer la valeur de la variables `backEndUrl` avec l'url du serveur back-end dans le fichier `front_end/comment.js`.
+- Pour récupérer les commentaires depuis le back-end, il faut remplacer la valeur de la variables `apiServerUrl` avec l'url du serveur back-end dans le fichier `front_end/comment.js`.
 
 ### Back-End
 - Le dossier `back_end` est découpé en deux fichiers Python : 
@@ -46,7 +46,7 @@ export MYSQL_DATABASE="thegreenearthpost" # nom de base de données
 export MYSQL_USER="thegreenearthpost" # nom d'utilisateur pour se connecter à MySQL
 export MYSQL_PASSWORD="thegreenearthpost" # mot de passe pour se connecter à MySQL
 ```
-  - Créez un environnement virtuel `virtualenv venv && .venv/bin/activate`
+  - Créez un environnement virtuel `virtualenv venv && . venv/bin/activate`
   - Installer les librairies Python `pip install -r back_end/requirements.txt`
   - Exportez les variables d'environnement et exécutez le back-end
 ```
@@ -56,7 +56,7 @@ flask run
 ```
 - Testez les pages Web
   - Le dossier `front_end` contient tout le code HTML, CSS et Javascript.
-  - Pour écrire et récupérer les commentaires depuis le back-end, il faut remplacer la valeur de la variables `backEndUrl` avec l'url du serveur back-end dans le fichier `front_end/comment.js`.
+  - Pour écrire et récupérer les commentaires depuis le back-end, il faut remplacer la valeur de la variables `apiServerUrl` avec l'url du serveur back-end dans le fichier `front_end/comment.js`.
   - Consultez l'article `Agroecology Article` pour visualiser les commentaires et en écrire
 
 ## Développement sur AWS
@@ -114,4 +114,4 @@ gunicorn --bind 0.0.0.0:5000 --chdir the-green-earth-post/back_end handler:app
 - Dans une page d'un navigateur et tapez `<instance-EC2-IP>:5000/health` ce qui permet de savoir si le back-end est fonctionnel.
   Pour cela, vous devez voir le message `API Server is healthy !`, signifiant que `le Serveur d'API est en bonne santé !`
 
-![Test fonctionnel](docs/health.png)
+![Test fonctionnel](docs/api_health.png)
