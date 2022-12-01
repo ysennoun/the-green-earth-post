@@ -81,7 +81,7 @@ Voici la procédure à réaliser pour installer le serveur d'API dans une instan
 ```
 - Créez un groupe de sécurité pour l'instance EC2, nommé `groupe_de_securite_serveur_api` par exemple, n'importe quel trafic entrant sur le port 5000
 
-![Groupe de sécurité](docs/groupe_de_securite.PNG)
+![Groupe de sécurité](docs/groupe_de_securite_serveur_api.PNG)
 
 - Créez une instance EC2 avec les configurations suivantes : 
   - AMI : `Amazon Linux AMI`
