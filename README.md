@@ -13,7 +13,7 @@ L'image suivante présente l'architecture entre les pages Web, le back-end compo
 - La page Web principale est `index.html`
 - La page Web `post.html` est un article de presse qui contient au bas les commenteurs des visiteurs. Il est possible de poster son propre commentaire.
 - Les commentaires sont stockées dans la base de données MySQL
-- Pour récupérer les commentaires depuis le back-end, il faut remplacer la valeur de la variables `apiServerUrl` avec l'url du serveur back-end dans le fichier `front_end/comment.js`.
+- Pour récupérer les commentaires depuis le back-end, il faut remplacer la valeur de la variables `apiServerUrl` avec l'url du serveur d'API dans le fichier `front_end/comment.js`.
 
 ### Back-End
 - Le dossier `back_end` est découpé en deux fichiers Python : 
@@ -56,14 +56,14 @@ flask run
 ```
 - Testez les pages Web
   - Le dossier `front_end` contient tout le code HTML, CSS et Javascript.
-  - Pour écrire et récupérer les commentaires depuis le back-end, il faut remplacer la valeur de la variables `apiServerUrl` avec l'url du serveur back-end dans le fichier `front_end/comment.js`.
+  - Pour écrire et récupérer les commentaires depuis le back-end, il faut remplacer la valeur de la variables `apiServerUrl` avec l'url du serveur d'API dans le fichier `front_end/comment.js`.
   - Consultez l'article `Agroecology Article` pour visualiser les commentaires et en écrire
 
 ## Développement sur AWS
-### Installer le back-end dans une instance EC2
+### Installer le serveur d'API dans une instance EC2
 
-Voici la procédure à réaliser pour installer le back-end dans une instance EC2
-- Créez un rôle IAM spécifique, nommé `role_back_end`, qui sera affecté à l'instance EC2 à créer. Il faudra mettre la politique suivante.
+Voici la procédure à réaliser pour installer le serveur d'API dans une instance EC2
+- Créez un rôle IAM spécifique, nommé `role_serveur_api` par exemple, qui sera affecté à l'instance EC2 à créer. Il faudra mettre la politique suivante.
   Ce rôle permettra à l'instance EC2 de récupérer l'url de la base de données RDS que l'on créera par la suite.
   Cette URL ne peut pas être connue à l'avance car elle est générée automatiquement par AWS
 ```
@@ -79,17 +79,17 @@ Voici la procédure à réaliser pour installer le back-end dans une instance EC
    ]
 }
 ```
-- Créez un groupe de sécurité pour l'instance EC2, nommé `gds_back_end`, n'importe quel trafic entrant sur le port 5000
+- Créez un groupe de sécurité pour l'instance EC2, nommé `groupe_de_securite_serveur_api` par exemple, n'importe quel trafic entrant sur le port 5000
 
 ![Groupe de sécurité](docs/groupe_de_securite.PNG)
 
 - Créez une instance EC2 avec les configurations suivantes : 
   - AMI : `Amazon Linux AMI`
   - Type d'instance : `t2.micro`
-  - Rôle IAM : `role_back_end`
+  - Rôle IAM : `role_serveur_api`
   - Configuration réseau : `VPC par défaut`
-  - Groupe de sécurité : `gds_back_end`
-  - (Optionnel) L'instance EC2 devra exécuter un script (ci-dessous) pour démarrer le back-end. On y précise les informations sur la bases de données RDS à créer par la suite.
+  - Groupe de sécurité : `groupe_de_securite_serveur_api`
+  - (Optionnel) L'instance EC2 devra exécuter un script (ci-dessous) pour démarrer le serveur d'API. On y précise les informations sur la bases de données RDS à créer par la suite.
     - `MYSQL_DB_INSTANCE`: nom de l'instance RDS MySQL, valeur par défaut -> `thegreenearthpost`
     - `MYSQL_DATABASE`: nom de la base de données MySQL, valeur par défaut -> `thegreenearthpost`
     - `MYSQL_USER`: nom de l'utilisateur pour se connecter à la base de données, valeur par défaut -> `admin`
@@ -111,7 +111,7 @@ gunicorn --bind 0.0.0.0:5000 --chdir the-green-earth-post/back_end handler:app
 
 ```
 - Récupérez l'adresse IP de votre instance EC2 nouvellement créée
-- Dans une page d'un navigateur et tapez `<instance-EC2-IP>:5000/health` ce qui permet de savoir si le back-end est fonctionnel.
+- Dans une page d'un navigateur et tapez `<instance-EC2-IP>:5000/health` ce qui permet de savoir si le serveur d'API est fonctionnel.
   Pour cela, vous devez voir le message `API Server is healthy !`, signifiant que `le Serveur d'API est en bonne santé !`
 
 ![Test fonctionnel](docs/api_health.png)
